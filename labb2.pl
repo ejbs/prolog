@@ -9,6 +9,8 @@ properties(L,S,R):-
 unvisited(T,S,U,R):-
     children(T,S,R1),
     remove_duplicates(U,R1,R).
+already_visited(S,U):-
+    memberchk(S,U).
 
 remove_duplicates(L1,L2,R):-
     append(L1,L2,L3),
@@ -52,11 +54,14 @@ satisfies(T,L,U,ef(F),S):-
     some(recur_ef(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
+    \+ already_visited(S,U),
     \+ satisfies(T,L,U,F,S).
 satisfies(T,L,U,or(X,Y),S):-
-    satisfies(T,L,U,X,S);
-    satisfies(T,L,U,Y,S).
+    \+ already_visited(S,U),
+    (satisfies(T,L,U,X,S);
+    satisfies(T,L,U,Y,S)).
 satisfies(T,L,U,and(X,Y),S):-
+    \+ already_visited(S,U),
     satisfies(T,L,U,X,S),
     satisfies(T,L,U,Y,S).
 satisfies(T,L,U,Atom,S):-
