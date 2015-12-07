@@ -53,7 +53,7 @@ satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
     some(recur_af(T,L,[U|S],F),R).
 
-satisfies(T,L,U,not(F),S):-
+satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
 satisfies(T,L,U,or(X,Y),S):-
     satisfies(T,L,U,X,S);
