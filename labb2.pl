@@ -39,11 +39,11 @@ satisfies(T,L,U,ex(F),S):-
 
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
-    satisfies(T,L,U,F,S),
+    ((\+ memberchk(S,U)), satisfies(T,L,[S|U],F,S)),
     some(satisfies(T,L,[S|U],eg(F)),R).
 satisfies(T,L,U,ag(F),S):-
     unvisited(T,S,U,R),
-    satisfies(T,L,U,F,S),
+    ((\+ memberchk(S,U)), satisfies(T,L,[S|U],F,S)),
     every(satisfies(T,L,[U|S],ag(F)),R).
 
 satisfies(T,L,U,af(F),S):-
@@ -54,14 +54,11 @@ satisfies(T,L,U,ef(F),S):-
     some(recur_ef(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
-    \+ already_visited(S,U),
     \+ satisfies(T,L,U,F,S).
 satisfies(T,L,U,or(X,Y),S):-
-    \+ already_visited(S,U),
     (satisfies(T,L,U,X,S);
     satisfies(T,L,U,Y,S)).
 satisfies(T,L,U,and(X,Y),S):-
-    \+ already_visited(S,U),
     satisfies(T,L,U,X,S),
     satisfies(T,L,U,Y,S).
 satisfies(T,L,U,Atom,S):-
@@ -69,11 +66,11 @@ satisfies(T,L,U,Atom,S):-
     memberchk(Atom,R).
 
 recur_ef(T,L,U,F,S):-
-    satisfies(T,L,U,F,S);
+    ((\+ memberchk(S,U)),satisfies(T,L,U,F,S));
     satisfies(T,L,[S|U],ef(F),S).
 recur_af(T,L,U,F,S):-
-    satisfies(T,L,U,F,S);
-    satisfies(T,L,[S|U],af(F),S).
+    ((\+ memberchk(S,U)),satisfies(T,L,U,F,S))
+    satisfies(T,L,[S|U],af(F),S)).
 
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
