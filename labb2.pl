@@ -10,7 +10,6 @@ unvisited(T,S,U,R):-
     children(T,S,R1),
     remove_duplicates(U,R1,R).
 
-%Implementera remove_duplicates
 remove_duplicates(L1,L2,R):-
     append(L1,L2,L3),
     rem_dups(L3,[],R).
@@ -66,10 +65,10 @@ satisfies(T,L,U,Atom,S):-
 
 recur_ef(T,L,U,F,S):-
     satisfies(T,L,U,F,S);
-    satisfies(T,L,U,ef(F),S).
+    satisfies(T,L,[U|S],ef(F),S).
 recur_af(T,L,U,F,S):-
     satisfies(T,L,U,F,S);
-    satisfies(T,L,U,af(F),S).
+    satisfies(T,L,[U|S],af(F),S).
 
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
