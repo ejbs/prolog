@@ -69,7 +69,7 @@ recur_ef(T,L,U,F,S):-
     ((\+ memberchk(S,U)),satisfies(T,L,U,F,S));
     satisfies(T,L,[S|U],ef(F),S).
 recur_af(T,L,U,F,S):-
-    ((\+ memberchk(S,U)),satisfies(T,L,U,F,S))
+    ((\+ memberchk(S,U)),satisfies(T,L,U,F,S));
     satisfies(T,L,[S|U],af(F),S)).
 
 verify(Input) :-
