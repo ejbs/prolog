@@ -31,27 +31,27 @@ every(C_2, [X|Xs]) :-
 
 satisfies(T,L,U,ax(F),S):-
     unvisited(T,S,U,R),
-    every(satisfies(T,L,[U|S],F),R).
+    every(satisfies(T,L,[S|U],F),R).
 satisfies(T,L,U,ex(F),S):-
     unvisited(T,S,U,R),
-    some(satisfies(T,L,[U|S],F),R).
+    some(satisfies(T,L,[S|U],F),R).
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,U,F,S),
-    some(satisfies(T,L,[U|S],eg(F)),R).
+    some(satisfies(T,L,[S|U],eg(F)),R).
 satisfies(T,L,U,ag(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,U,F,S),
-    every(satisfies(T,L,[U|S],ag(F)),R).
+    every(satisfies(T,L,[S|U],ag(F)),R).
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
-    every(recur_af(T,L,[U|S],F),R).
+    every(recur_af(T,L,[S|U],F),R).
 satisfies(T,L,U,ef(F),S):-
     unvisited(T,S,U,R),
-    some(recur_ef(T,L,[U|S],F),R).
+    some(recur_ef(T,L,[S|U],F),R).
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
-    some(recur_af(T,L,[U|S],F),R).
+    some(recur_af(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
