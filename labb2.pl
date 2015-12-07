@@ -38,7 +38,7 @@ satisfies(T,L,U,ex(F),S):-
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,U,F,S),
-    some(satisfies(T,L,[U|S],eg(F)),R).
+    some(satisfies(T,L,[S|U],eg(F)),R).
 satisfies(T,L,U,ag(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,U,F,S),
@@ -46,10 +46,10 @@ satisfies(T,L,U,ag(F),S):-
 
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
-    every(recur_af(T,L,[U|S],F),R).
+    every(recur_af(T,L,[S|U],F),R).
 satisfies(T,L,U,ef(F),S):-
     unvisited(T,S,U,R),
-    some(recur_ef(T,L,[U|S],F),R).
+    some(recur_ef(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
@@ -65,10 +65,10 @@ satisfies(T,L,U,Atom,S):-
 
 recur_ef(T,L,U,F,S):-
     satisfies(T,L,U,F,S);
-    satisfies(T,L,[U|S],ef(F),S).
+    satisfies(T,L,[S|U],ef(F),S).
 recur_af(T,L,U,F,S):-
     satisfies(T,L,U,F,S);
-    satisfies(T,L,[U|S],af(F),S).
+    satisfies(T,L,[S|U],af(F),S).
 
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
