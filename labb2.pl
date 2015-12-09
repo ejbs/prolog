@@ -37,39 +37,37 @@ satisfies(T,L,U,ex(F),S):-
     some(satisfies(T,L,[S|U],F),R).
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
-    satisfies(T,L,U,F,S),
+    satisfies(T,L,[],F,S),
     some(satisfies(T,L,[S|U],eg(F)),R).
 satisfies(T,L,U,ag(F),S):-
-    unvisited(T,S,U,R),
-    satisfies(T,L,U,F,S),
-    every(satisfies(T,L,[S|U],ag(F)),R).
+    every(go_into_ag(T,L,[],F),T).
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
     every(recur_af(T,L,[S|U],F),R).
 satisfies(T,L,U,ef(F),S):-
     unvisited(T,S,U,R),
     some(recur_ef(T,L,[S|U],F),R).
-satisfies(T,L,U,af(F),S):-
-    unvisited(T,S,U,R),
-    some(recur_af(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
 satisfies(T,L,U,or(X,Y),S):-
-    satisfies(T,L,U,X,S);
-    satisfies(T,L,U,Y,S).
+    satisfies(T,L,[],X,S);
+    satisfies(T,L,[],Y,S).
 satisfies(T,L,U,and(X,Y),S):-
-    satisfies(T,L,U,X,S),
-    satisfies(T,L,U,Y,S).
+    satisfies(T,L,[],X,S),
+    satisfies(T,L,[],Y,S).
 satisfies(T,L,U,Atom,S):-
     properties(L,S,R),
     memberchk(Atom,R).
 
+
+go_into_ag(T,L,U,F,[S,_]):-
+    satisfies(T,L,U,F,S).
 recur_ef(T,L,U,F,S):-
-    satisfies(T,L,U,F,S);
+    satisfies(T,L,[],F,S);
     satisfies(T,L,U,ef(F),S).
 recur_af(T,L,U,F,S):-
-    satisfies(T,L,U,F,S);
+    satisfies(T,L,[],F,S);
     satisfies(T,L,U,af(F),S).
 
 verify(Input) :-
