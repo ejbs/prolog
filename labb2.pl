@@ -6,6 +6,11 @@ children(T,S,R):-
 properties(L,S,R):-
     member([S,R],L).
 
+all_states([],A,A).
+all_states([St|T],A,R):-
+    [S|_] = St,
+    all_states(T,[S|A],R).
+
 unvisited(T,S,U,R):-
     children(T,S,R1),
     remove_duplicates(U,R1,R).
@@ -51,7 +56,8 @@ satisfies(T,L,U,eg(F),S):-
     satisfies(T,L,[],F,S),
     accumulating_some(T,L,[S|U],eg(F),R).
 satisfies(T,L,U,ag(F),S):-
-    every(go_into_ag(T,L,[],F),T).
+    all_states(T,R),
+    accumulating_every(T,L,U,F,R).
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,U,R),
     every(recur_af(T,L,[S|U],F),R).
@@ -71,9 +77,6 @@ satisfies(T,L,U,Atom,S):-
     properties(L,S,R),
     memberchk(Atom,R).
 
-
-go_into_ag(T,L,U,F,[S,_]):-
-    satisfies(T,L,U,F,S).
 recur_ef(T,L,U,F,S):-
     satisfies(T,L,[],F,S);
     satisfies(T,L,U,ef(F),S).
