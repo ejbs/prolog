@@ -42,14 +42,14 @@ accumulating_some(T,L,U,F,[S|Ss]):-
 
 satisfies(T,L,U,ax(F),S):-
     unvisited(T,S,U,R),
-    every(satisfies(T,L,[S|U],F),R).
+    accumulating_every(satisfies(T,L,U,F),R).
 satisfies(T,L,U,ex(F),S):-
     unvisited(T,S,U,R),
-    some(satisfies(T,L,[S|U],F),R).
+    accumulating_some(satisfies(T,L,U,F),R).
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,[],F,S),
-    some(satisfies(T,L,[S|U],eg(F)),R).
+    accumulating_some(T,L,[S|U],eg(F),R).
 satisfies(T,L,U,ag(F),S):-
     every(go_into_ag(T,L,[],F),T).
 satisfies(T,L,U,af(F),S):-
