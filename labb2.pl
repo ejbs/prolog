@@ -29,6 +29,17 @@ every(C_2, [X|Xs]) :-
     call(C_2, X),
     every(C_2, Xs).
 
+accumulating_every(_,_,_,_,[]).
+accumulating_every(T,L,U,F,[S|Ss]):-
+    satisfies(T,L,U,F,S),
+    accumulating_every(T,L,[S|U],F,Ss).
+
+accumulating_some(_,_,_,_,[]).
+accumulating_some(T,L,U,F,[S|Ss]):-
+    satisfies(T,L,U,F,S);
+    accumulating_every(T,L,[S|U],F,Ss).
+
+
 satisfies(T,L,U,ax(F),S):-
     unvisited(T,S,U,R),
     every(satisfies(T,L,[S|U],F),R).
