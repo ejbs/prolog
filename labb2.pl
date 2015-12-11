@@ -47,10 +47,10 @@ accumulating_some(T,L,U,F,[S|Ss]):-
 
 satisfies(T,L,U,ax(F),S):-
     unvisited(T,S,U,R),
-    accumulating_every(satisfies(T,L,U,F),R).
+    accumulating_every(T,L,U,F,R).
 satisfies(T,L,U,ex(F),S):-
     unvisited(T,S,U,R),
-    accumulating_some(satisfies(T,L,U,F),R).
+    accumulating_some(T,L,U,F,R).
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,U,R),
     satisfies(T,L,[],F,S),
