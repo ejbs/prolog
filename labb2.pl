@@ -1,12 +1,12 @@
 % check(T,L,S,U,F)
 % satisfies(T,L,U,F,S)
 
-%Bugg i: EG, EX
+%Bugg i: EG
 children(T,S,R):-
-    member([S,R],T).
+    memberchk([S,R],T).
 
 properties(L,S,R):-
-    member([S,R],L).
+    memberchk([S,R],L).
 
 all_states([],A,A).
 all_states([St|T],A,R):-
@@ -47,23 +47,24 @@ accumulating_some(T,L,U,F,[S|Ss]):-
     accumulating_some(T,L,[S|U],F,Ss).
 
 satisfies(T,L,U,ax(F),S):-
-    unvisited(T,S,U,R),
+    unvisited(T,S,[S|U],R),
     accumulating_every(T,L,U,F,R).
 satisfies(T,L,U,ex(F),S):-
-    unvisited(T,S,U,R),
+    unvisited(T,S,[S|U],R),
     accumulating_some(T,L,U,F,R).
 satisfies(T,L,U,eg(F),S):-
-    unvisited(T,S,U,R),
+    unvisited(T,S,[S|U],R),
     satisfies(T,L,U,F,S),
     accumulating_some(T,L,[S|U],eg(F),R).
 satisfies(T,L,U,ag(F),S):-
-    all_states(T,[],R),
-    accumulating_every(T,L,U,F,R).
+    unvisited(T,S,[S|U],R),
+    satisfies(T,L,[S|U],F,S),
+    accumulating_every(T,L,[S|U],ag(F),R).
 satisfies(T,L,U,af(F),S):-
-    unvisited(T,S,U,R),
+    unvisited(T,S,[S|U],R),
     every(recur_af(T,L,[S|U],F),R).
 satisfies(T,L,U,ef(F),S):-
-    unvisited(T,S,U,R),
+    unvisited(T,S,[S|U],R),
     some(recur_ef(T,L,[S|U],F),R).
 
 satisfies(T,L,U,neg(F),S):-
@@ -90,5 +91,4 @@ verify(Input) :-
     check(T, L, S, [], F).
 
 check(T,L,S,U,F):-
-    write(F),
     satisfies(T,L,U,F,S).
