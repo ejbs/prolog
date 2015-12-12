@@ -61,11 +61,12 @@ satisfies(T,L,U,ag(F),S):-
     satisfies(T,L,[S|U],F,S),
     accumulating_every(T,L,[S|U],ag(F),R).
 satisfies(T,L,U,af(F),S):-
-    unvisited(T,S,[S|U],R),
-    every(recur_af(T,L,[S|U],F),R).
+    unvisited(T,S,[S|U],R);
+    accumulating_every(T,L,[S|U],F,R).
 satisfies(T,L,U,ef(F),S):-
     unvisited(T,S,[S|U],R),
-    some(recur_ef(T,L,[S|U],F),R).
+    satisfies(T,L,[S|U],F,S);
+    accumulating_some(T,L,[S|U],F,R).
 
 satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
@@ -78,13 +79,6 @@ satisfies(T,L,U,and(X,Y),S):-
 satisfies(T,L,U,Atom,S):-
     properties(L,S,R),
     memberchk(Atom,R).
-
-recur_ef(T,L,U,F,S):-
-    satisfies(T,L,[],F,S);
-    satisfies(T,L,U,ef(F),S).
-recur_af(T,L,U,F,S):-
-    satisfies(T,L,[],F,S);
-    satisfies(T,L,U,af(F),S).
 
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
