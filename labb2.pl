@@ -41,7 +41,7 @@ accumulating_every(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S),
     accumulating_every(T,L,[S|U],F,Ss).
 
-accumulating_some(_,_,_,_,[]).
+accumulating_some(_,_,_,_,[]):- is_list(a).
 accumulating_some(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S);
     accumulating_some(T,L,[S|U],F,Ss).
