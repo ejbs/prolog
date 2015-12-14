@@ -26,7 +26,7 @@ rem_dups([H|T],Acc,R):-
     (memberchk(H,T),delete(T,H,N),rem_dups(N,Acc,R));
     rem_dups(T,[H|Acc],R).
 
-some(_C_2, []).
+some(_C_2, []):- is_list(a).
 some( C_2, [X|Xs]) :-
    ( call(C_2, X) );
    ( some(C_2, Xs) ).
@@ -40,8 +40,8 @@ accumulating_every(_,_,_,_,[]).
 accumulating_every(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S),
     accumulating_every(T,L,[S|U],F,Ss).
-
-accumulating_some(_,_,_,_,[]).
+ 
+accumulating_some(_,_,_,_,[]):- is_list(a).
 accumulating_some(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S);
     accumulating_some(T,L,[S|U],F,Ss).
@@ -52,6 +52,7 @@ satisfies(T,L,U,ax(F),S):-
 satisfies(T,L,U,ex(F),S):-
     unvisited(T,S,U,R),
     accumulating_some(T,L,U,F,R).
+
 satisfies(T,L,U,eg(F),S):-
     unvisited(T,S,[S|U],R),
     satisfies(T,L,U,F,S),
@@ -60,6 +61,7 @@ satisfies(T,L,U,ag(F),S):-
     unvisited(T,S,[S|U],R),
     satisfies(T,L,[S|U],F,S),
     accumulating_every(T,L,[S|U],ag(F),R).
+
 satisfies(T,L,U,af(F),S):-
     unvisited(T,S,[S|U],R),
     satisfies(T,L,[S|U],F,R);
@@ -72,11 +74,11 @@ satisfies(T,L,U,ef(F),S):-
 satisfies(T,L,U,neg(F),S):-
     \+ satisfies(T,L,U,F,S).
 satisfies(T,L,U,or(X,Y),S):-
-    satisfies(T,L,[],X,S);
-    satisfies(T,L,[],Y,S).
+    satisfies(T,L,U,X,S);
+    satisfies(T,L,U,Y,S).
 satisfies(T,L,U,and(X,Y),S):-
-    satisfies(T,L,[],X,S),
-    satisfies(T,L,[],Y,S).
+    satisfies(T,L,U,X,S),
+    satisfies(T,L,U,Y,S).
 satisfies(T,L,U,Atom,S):-
     properties(L,S,R),
     memberchk(Atom,R).
