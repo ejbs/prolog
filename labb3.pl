@@ -24,10 +24,9 @@ satisfies(T,L,U,ex(F),S):-
     some(T,L,[],F,R).
 
 satisfies(T,L,U,eg(F),S):-
-    memberchk(S,U); %Basfall EG1
-    (children(T,S,R),
-     satisfies(T,L,[],F,S),
-     some(T,L,[S|U],eg(F),R)).
+    eg1(T,L,U,F,S),
+    eg2(T,L,U,F,S).
+
 satisfies(T,L,U,ag(F),S):-
     ag1(T,L,U,F,S),
     ag2(T,L,U,F,S).
@@ -76,6 +75,13 @@ ag2(T,L,U,F,S):-
     children(T,S,R),
     every(T,L,[S|U],ag(F),R).
 
+eg1(T,L,U,F,S):-
+    memberchk(S,U).
+eg2(T,L,U,F,S):-
+    \+ memberchk(S,U),
+    satisfies(T,L,[],F,S),
+    some(T,L,[S|U],eg(F),S).
+    
 	
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
