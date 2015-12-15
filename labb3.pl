@@ -80,7 +80,8 @@ eg1(T,L,U,F,S):-
 eg2(T,L,U,F,S):-
     \+ memberchk(S,U),
     satisfies(T,L,[],F,S),
-    some(T,L,[S|U],eg(F),S).
+    children(T,S,R),
+    some(T,L,[S|U],eg(F),R).
     
 	
 verify(Input) :-
