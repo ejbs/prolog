@@ -11,7 +11,7 @@ every(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S),
     every(T,L,U,F,Ss).
 
-some(_,_,_,_,[]).
+%some(_,_,_,_,[]).
 some(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S);
     some(T,L,U,F,Ss).
