@@ -43,7 +43,6 @@ satisfies(T,L,U,af(F),S):-
     ).
 
 satisfies(T,L,U,ef(F),S):-
-    \+ memberchk(S,U),
     ef1(T,L,U,F,S);
     ef2(T,L,U,F,S).
 
@@ -61,8 +60,10 @@ satisfies(T,L,U,Atom,S):-
     memberchk(Atom,R).
 
 ef1(T,L,U,F,S):-
+    \+ memberchk(S,U),
     satisfies(T,L,[],F,S).
 ef2(T,L,U,F,S):-
+    \+ memberchk(S,U),
     some(T,L,[S|U],ef(F),S).
 	
 verify(Input) :-
