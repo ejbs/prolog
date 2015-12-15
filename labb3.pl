@@ -24,11 +24,11 @@ satisfies(T,L,U,ex(F),S):-
     some(T,L,[],F,R).
 
 satisfies(T,L,U,eg(F),S):-
-    eg1(T,L,U,F,S),
+    eg1(T,L,U,F,S);
     eg2(T,L,U,F,S).
 
 satisfies(T,L,U,ag(F),S):-
-    ag1(T,L,U,F,S),
+    ag1(T,L,U,F,S);
     ag2(T,L,U,F,S).
 
 satisfies(T,L,U,af(F),S):-
@@ -43,8 +43,8 @@ satisfies(T,L,U,neg(Atom),S):-
     properties(L,S,R),
     \+ memberchk(Atom,R).
 satisfies(T,L,U,or(X,Y),S):-
-    satisfies(T,L,[],X,S);
-    satisfies(T,L,[],Y,S).
+    or1(T,L,U,X,S);
+    or2(T,L,U,Y,S).
 satisfies(T,L,U,and(X,Y),S):-
     satisfies(T,L,[],X,S),
     satisfies(T,L,[],Y,S).
@@ -52,6 +52,10 @@ satisfies(T,L,U,Atom,S):-
     properties(L,S,R),
     memberchk(Atom,R).
 
+or1(T,L,U,F,S):-
+    satisfies(T,L,[],F,S).
+or2(T,L,U,F,S):-
+    satisfies(T,L,[],F,S).
 ef1(T,L,U,F,S):-
     \+ memberchk(S,U),
     satisfies(T,L,[],F,S).
