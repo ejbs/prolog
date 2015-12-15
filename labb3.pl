@@ -29,18 +29,12 @@ satisfies(T,L,U,eg(F),S):-
      satisfies(T,L,[],F,S),
      some(T,L,[S|U],eg(F),R)).
 satisfies(T,L,U,ag(F),S):-
-    memberchk(S,U); %Basfall AG1
-    (children(T,S,R),
-     satisfies(T,L,[],F,S),
-     every(T,L,[S|U],ag(F),R)).
+    ag1(T,L,U,F,S),
+    ag2(T,L,U,F,S).
 
 satisfies(T,L,U,af(F),S):-
-    \+ memberchk(S,U),
-    (satisfies(T,L,S,[],F); %Basfall AF1
-     (children(T,S,R),
-      every(T,L,[S|U],af(F),R)
-     )
-    ).
+    af1(T,L,U,F,S);
+    af2(T,L,U,F,S).
 
 satisfies(T,L,U,ef(F),S):-
     ef1(T,L,U,F,S);
@@ -64,7 +58,24 @@ ef1(T,L,U,F,S):-
     satisfies(T,L,[],F,S).
 ef2(T,L,U,F,S):-
     \+ memberchk(S,U),
-    some(T,L,[S|U],ef(F),S).
+    children(T,S,R)
+    some(T,L,[S|U],ef(F),R).
+af1(T,L,U,F,S):-
+    \+ memberchk(S,U),
+    satisfies(T,L,[],F,S).
+af2(T,L,U,F,S):-
+    \+ memberchk(S,U),
+    children(T,S,R)
+    every(T,L,[S|U],af(F),R).
+
+ag1(T,L,U,F,S):-
+    memberchk(S,U).
+ag2(T,L,U,F,S):-
+    \+ memberchk(S,U),
+    satisfies(T,L,[],F,S),
+    children(T,S,R),
+    every(T,L,[S|U],ag(F),R).
+
 	
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
