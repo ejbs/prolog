@@ -17,19 +17,6 @@ some(T,L,U,F,[S|Ss]):-
     satisfies(T,L,U,F,S);
     some(T,L,U,F,Ss).
 
-satisfies(T,L,U,neg(Atom),S):-
-    properties(L,S,R),
-    \+ memberchk(Atom,R).
-satisfies(T,L,U,or(X,Y),S):-
-    satisfies(T,L,[],X,S);
-    satisfies(T,L,[],Y,S).
-satisfies(T,L,U,and(X,Y),S):-
-    satisfies(T,L,[],X,S),
-    satisfies(T,L,[],Y,S).
-satisfies(T,L,U,Atom,S):-
-    properties(L,S,R),
-    memberchk(Atom,R).
-
 satisfies(T,L,U,ax(F),S):-
     children(T,S,R),
     every(T,L,[],F,R).
@@ -62,6 +49,19 @@ satisfies(T,L,U,ef(F),S):-
       some(T,L,[S|U],ef(F),R)
      )
     ).
+satisfies(T,L,U,neg(Atom),S):-
+    properties(L,S,R),
+    \+ memberchk(Atom,R).
+satisfies(T,L,U,or(X,Y),S):-
+    satisfies(T,L,[],X,S);
+    satisfies(T,L,[],Y,S).
+satisfies(T,L,U,and(X,Y),S):-
+    satisfies(T,L,[],X,S),
+    satisfies(T,L,[],Y,S).
+satisfies(T,L,U,Atom,S):-
+    properties(L,S,R),
+    memberchk(Atom,R).
+
 	
 verify(Input) :-
     see(Input), read(T), read(L), read(S), read(F), seen,
