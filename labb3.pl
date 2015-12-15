@@ -42,7 +42,6 @@ satisfies(T,L,U,eg(F),S):-
     (children(T,S,R),
      satisfies(T,L,[],F,S),
      some(T,L,[S|U],eg(F),R)).
-
 satisfies(T,L,U,ag(F),S):-
     memberchk(S,U); %Basfall AG1
     (children(T,S,R),
@@ -51,21 +50,17 @@ satisfies(T,L,U,ag(F),S):-
 
 satisfies(T,L,U,af(F),S):-
     \+ memberchk(S,U),
-    (
-	satisfies(T,L,S,[],F); %Basfall AF1
-	(
-	    children(T,S,R),
-	    every(T,L,[S|U],af(F),R)
-	)
+    (satisfies(T,L,S,[],F); %Basfall AF1
+     (children(T,S,R),
+      every(T,L,[S|U],af(F),R)
+     )
     ).
 satisfies(T,L,U,ef(F),S):-
     \+ memberchk(S,U),
-    (
-	satisfies(T,L,S,[],F);
-	(
-	    children(T,S,R),
-	    some(T,L,[S|U],ef(F),R)
-	)
+    (satisfies(T,L,S,[],F);
+     (children(T,S,R),
+      some(T,L,[S|U],ef(F),R)
+     )
     ).
 	
 verify(Input) :-
