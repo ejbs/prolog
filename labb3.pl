@@ -58,14 +58,14 @@ ef1(T,L,U,F,S):-
     satisfies(T,L,[],F,S).
 ef2(T,L,U,F,S):-
     \+ memberchk(S,U),
-    children(T,S,R)
+    children(T,S,R),
     some(T,L,[S|U],ef(F),R).
 af1(T,L,U,F,S):-
     \+ memberchk(S,U),
     satisfies(T,L,[],F,S).
 af2(T,L,U,F,S):-
     \+ memberchk(S,U),
-    children(T,S,R)
+    children(T,S,R),
     every(T,L,[S|U],af(F),R).
 
 ag1(T,L,U,F,S):-
