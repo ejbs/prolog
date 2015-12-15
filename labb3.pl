@@ -39,13 +39,15 @@ satisfies(T,L,U,ex(F),S):-
 
 satisfies(T,L,U,eg(F),S):-
     memberchk(S,U); %Basfall EG1
-    children(T,S,R),
-    satisfies(T,L,[],F,S),
-    some(T,L,[S|U],eg(F),R).
+    (children(T,S,R),
+     satisfies(T,L,[],F,S),
+     some(T,L,[S|U],eg(F),R)).
+
 satisfies(T,L,U,ag(F),S):-
     memberchk(S,U); %Basfall AG1
-    children(T,S,R),
-    every(T,L,[S|U],ag(F),R).
+    (children(T,S,R),
+     satisfies(T,L,[],F,S),
+     every(T,L,[S|U],ag(F),R)).
 
 satisfies(T,L,U,af(F),S):-
     \+ memberchk(S,U),
